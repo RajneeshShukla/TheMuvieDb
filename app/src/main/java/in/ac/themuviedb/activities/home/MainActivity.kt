@@ -1,5 +1,6 @@
-package `in`.ac.themuviedb
+package `in`.ac.themuviedb.activities.home
 
+import `in`.ac.themuviedb.R
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 
