@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
+import android.widget.ProgressBar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,6 +23,8 @@ import www.mindfire.thenews.service.ApiClient
  */
 class TvFragment : Fragment(), Callback<MuvieDetailModel> {
 
+    var mProgressBar: ProgressBar? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,9 +36,11 @@ class TvFragment : Fragment(), Callback<MuvieDetailModel> {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        mProgressBar = activity?.findViewById(R.id.progress_bar)
+
         var movieData = ApiClient.create()
         movieData.getTvShows().enqueue(this)
-
+        mProgressBar?.visibility = View.VISIBLE
     }
 
     override fun onFailure(call: Call<MuvieDetailModel>, t: Throwable) {
@@ -43,6 +48,7 @@ class TvFragment : Fragment(), Callback<MuvieDetailModel> {
     }
 
     override fun onResponse(call: Call<MuvieDetailModel>, response: Response<MuvieDetailModel>) {
+        mProgressBar?.visibility = View.GONE
         val gridview = activity!!.findViewById<GridView>(R.id.gridview)
 
         val adapter = MovieListAdapter(

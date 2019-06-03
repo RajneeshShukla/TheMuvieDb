@@ -1,4 +1,4 @@
-package `in`.ac.themuviedb .activities.home.fragments
+package `in`.ac.themuviedb.activities.home.fragments
 
 
 import `in`.ac.themuviedb.R
@@ -34,12 +34,12 @@ class MuvieFragment : Fragment(), Callback<MuvieDetailModel> {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        progressBar = activity?.findViewById(R.id.action_bar)
+        progressBar = activity?.findViewById(R.id.progress_bar)
 
         var movieData = ApiClient.create()
         movieData.getMovies().enqueue(this)
 
-        progressBar?.visibility  = View.VISIBLE
+        progressBar?.visibility = View.VISIBLE
     }
 
     override fun onFailure(call: Call<MuvieDetailModel>, t: Throwable) {
@@ -55,7 +55,6 @@ class MuvieFragment : Fragment(), Callback<MuvieDetailModel> {
             response.body()!!.results
         )
         gridview.adapter = adapter
-
-        progressBar?.visibility  = View.GONE
+        progressBar?.visibility = View.GONE
     }
 }
