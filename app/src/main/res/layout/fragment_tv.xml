@@ -4,12 +4,14 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:background="#aa2"
-             tools:context=".activities.tv.TvFragment">
+             tools:context=".activities.home.fragments.TvFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <GridView
+            android:id="@+id/gridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Tv"/>
+            android:gravity="center"
+            android:numColumns="2"
+    />
 
 </FrameLayout>

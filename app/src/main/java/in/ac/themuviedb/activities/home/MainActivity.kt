@@ -1,8 +1,8 @@
 package `in`.ac.themuviedb.activities.home
 
 import `in`.ac.themuviedb.R
-import `in`.ac.themuviedb.activities.movie.MuvieFragment
-import `in`.ac.themuviedb.activities.tv.TvFragment
+import `in`.ac.themuviedb.activities.home.fragments.MuvieFragment
+import `in`.ac.themuviedb.activities.home.fragments.TvFragment
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView

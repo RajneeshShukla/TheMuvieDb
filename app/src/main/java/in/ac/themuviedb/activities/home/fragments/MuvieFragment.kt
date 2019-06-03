@@ -1,8 +1,8 @@
-package `in`.ac.themuviedb.activities.movie
+package `in`.ac.themuviedb .activities.home.fragments
 
 
 import `in`.ac.themuviedb.R
-import `in`.ac.themuviedb.activities.movie.MovieListAdapter
+import `in`.ac.themuviedb.activities.home.MovieListAdapter
 import `in`.ac.themuviedb.model.MuvieDetailModel
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
+import android.widget.ProgressBar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,6 +23,7 @@ import www.mindfire.thenews.service.ApiClient
  */
 class MuvieFragment : Fragment(), Callback<MuvieDetailModel> {
 
+    var progressBar: ProgressBar? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,9 +34,12 @@ class MuvieFragment : Fragment(), Callback<MuvieDetailModel> {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        progressBar = activity?.findViewById(R.id.action_bar)
 
         var movieData = ApiClient.create()
         movieData.getMovies().enqueue(this)
+
+        progressBar?.visibility  = View.VISIBLE
     }
 
     override fun onFailure(call: Call<MuvieDetailModel>, t: Throwable) {
@@ -51,5 +56,6 @@ class MuvieFragment : Fragment(), Callback<MuvieDetailModel> {
         )
         gridview.adapter = adapter
 
+        progressBar?.visibility  = View.GONE
     }
 }

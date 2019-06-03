@@ -1,0 +1,56 @@
+package `in`.ac.themuviedb.activities.home.fragments
+
+
+import `in`.ac.themuviedb.R
+import `in`.ac.themuviedb.activities.home.MovieListAdapter
+import `in`.ac.themuviedb.model.MuvieDetailModel
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.GridView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import www.mindfire.thenews.service.ApiClient
+
+
+/**
+ * A simple [Fragment] subclass.
+ *
+ */
+class TvFragment : Fragment(), Callback<MuvieDetailModel> {
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_tv, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        var movieData = ApiClient.create()
+        movieData.getTvShows().enqueue(this)
+
+    }
+
+    override fun onFailure(call: Call<MuvieDetailModel>, t: Throwable) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onResponse(call: Call<MuvieDetailModel>, response: Response<MuvieDetailModel>) {
+        val gridview = activity!!.findViewById<GridView>(R.id.gridview)
+
+        val adapter = MovieListAdapter(
+            activity!!,
+            R.layout.movie_item,
+            response.body()!!.results
+        )
+        gridview.adapter = adapter
+    }
+
+}

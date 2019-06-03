@@ -1,4 +1,4 @@
-package `in`.ac.themuviedb.activities.movie
+package `in`.ac.themuviedb.activities.home
 
 import `in`.ac.themuviedb.R
 import `in`.ac.themuviedb.model.Result
