@@ -1,4 +1,4 @@
-package `in`.ac.themuviedb.activities.home
+package `in`.ac.themuviedb.activities.tv
 
 
 import `in`.ac.themuviedb.R

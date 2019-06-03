@@ -1,11 +1,12 @@
 package `in`.ac.themuviedb.activities.home
 
 import `in`.ac.themuviedb.R
+import `in`.ac.themuviedb.activities.movie.MuvieFragment
+import `in`.ac.themuviedb.activities.tv.TvFragment
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
-import android.support.v7.app.ActionBar
 
 class MainActivity : AppCompatActivity() {
 
