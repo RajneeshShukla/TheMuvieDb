@@ -6,12 +6,12 @@
              tools:context=".activities.home.fragments.MuvieFragment">
 
     <GridView
-              android:id="@+id/gridview"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:numColumns="2"
-             />
+            android:id="@+id/gridview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:numColumns="2"
+    />
 
     <ProgressBar
             android:id="@+id/progress_bar"

@@ -49,14 +49,14 @@ class TvFragment : Fragment(), Callback<MuvieDetailModel> {
 
     override fun onResponse(call: Call<MuvieDetailModel>, response: Response<MuvieDetailModel>) {
         mProgressBar?.visibility = View.GONE
-        val gridview = activity!!.findViewById<GridView>(R.id.gridview)
+        val gridview = activity?.findViewById<GridView>(R.id.gridview)
 
         val adapter = MovieListAdapter(
             activity!!,
             R.layout.movie_item,
             response.body()!!.results
         )
-        gridview.adapter = adapter
+        gridview?.adapter = adapter
     }
 
 }

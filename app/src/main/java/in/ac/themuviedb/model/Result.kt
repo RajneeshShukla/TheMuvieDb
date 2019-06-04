@@ -2,8 +2,9 @@ package `in`.ac.themuviedb.model
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-data class Result(
+data class Result (
     @SerializedName("vote_count")
     val voteCount: Int,
     val id: Int,
@@ -26,4 +27,4 @@ data class Result(
     val overview: String,
     @SerializedName("release_date")
     val releaseDate: String
-)
+) : Serializable

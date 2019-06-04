@@ -2,13 +2,17 @@ package `in`.ac.themuviedb.activities.home.fragments
 
 
 import `in`.ac.themuviedb.R
+import `in`.ac.themuviedb.activities.MovieDetail.MovieDetail
 import `in`.ac.themuviedb.activities.home.MovieListAdapter
 import `in`.ac.themuviedb.model.MuvieDetailModel
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.GridView
 import android.widget.ProgressBar
 import retrofit2.Call
@@ -23,7 +27,12 @@ import www.mindfire.thenews.service.ApiClient
  */
 class MuvieFragment : Fragment(), Callback<MuvieDetailModel> {
 
-    var progressBar: ProgressBar? = null
+    var mProgressBar: ProgressBar? = null
+    var mVisibleItemCount: Int = 0
+    var mTotalItemCount: Int = 0
+    var isScrolling: Boolean = false
+    var mLayoutManager = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,13 +43,14 @@ class MuvieFragment : Fragment(), Callback<MuvieDetailModel> {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        progressBar = activity?.findViewById(R.id.progress_bar)
+        mProgressBar = activity?.findViewById(R.id.progress_bar)
 
         var movieData = ApiClient.create()
         movieData.getMovies().enqueue(this)
 
-        progressBar?.visibility = View.VISIBLE
+        mProgressBar?.visibility = View.VISIBLE
     }
+
 
     override fun onFailure(call: Call<MuvieDetailModel>, t: Throwable) {
 
@@ -55,6 +65,13 @@ class MuvieFragment : Fragment(), Callback<MuvieDetailModel> {
             response.body()!!.results
         )
         gridview.adapter = adapter
-        progressBar?.visibility = View.GONE
+        mProgressBar?.visibility = View.GONE
+
+        gridview.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            val intent = Intent(context, MovieDetail::class.java)
+            intent.putExtra("MOVIE_INFO", response.body()!!.results[position])
+            startActivity(intent)
+        }
     }
+
 }
