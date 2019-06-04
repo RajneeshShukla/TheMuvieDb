@@ -2,13 +2,16 @@ package `in`.ac.themuviedb.activities.home.fragments
 
 
 import `in`.ac.themuviedb.R
+import `in`.ac.themuviedb.activities.MovieDetail.MovieDetail
 import `in`.ac.themuviedb.activities.home.MovieListAdapter
 import `in`.ac.themuviedb.model.MuvieDetailModel
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.GridView
 import android.widget.ProgressBar
 import retrofit2.Call
@@ -49,7 +52,7 @@ class TvFragment : Fragment(), Callback<MuvieDetailModel> {
 
     override fun onResponse(call: Call<MuvieDetailModel>, response: Response<MuvieDetailModel>) {
         mProgressBar?.visibility = View.GONE
-        val gridview = activity?.findViewById<GridView>(R.id.gridview)
+        val gridview = activity!!.findViewById<GridView>(R.id.gridview)
 
         val adapter = MovieListAdapter(
             activity!!,
@@ -57,6 +60,14 @@ class TvFragment : Fragment(), Callback<MuvieDetailModel> {
             response.body()!!.results
         )
         gridview?.adapter = adapter
+
+        mProgressBar?.visibility = View.GONE
+
+        gridview.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            val intent = Intent(context, MovieDetail::class.java)
+            intent.putExtra("MOVIE_INFO", response.body()!!.results[position])
+            startActivity(intent)
+        }
     }
 
 }
