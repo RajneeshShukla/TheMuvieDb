@@ -1,19 +1,19 @@
 package `in`.ac.themuviedb.activities.home.fragments
 
 
-import `in`.ac.themuviedb.R
 import `in`.ac.themuviedb.activities.MovieDetail.MovieDetail
-import `in`.ac.themuviedb.activities.home.MovieListAdapter
+import `in`.ac.themuviedb.activities.home.MovieAdapter
 import `in`.ac.themuviedb.model.MuvieDetailModel
+import `in`.ac.themuviedb.model.Result
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
-import android.widget.AdapterView
-import android.widget.GridView
 import android.widget.ProgressBar
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,7 +25,7 @@ import www.mindfire.thenews.service.ApiClient
  * A simple [Fragment] subclass.
  *
  */
-class MuvieFragment : Fragment(), Callback<MuvieDetailModel> {
+class MuvieFragment : Fragment(), Callback<MuvieDetailModel>, MovieAdapter.MovieItemClickListener {
 
     var mProgressBar: ProgressBar? = null
     var mVisibleItemCount: Int = 0
@@ -38,12 +38,12 @@ class MuvieFragment : Fragment(), Callback<MuvieDetailModel> {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_muvie, container, false)
+        return inflater.inflate(`in`.ac.themuviedb.R.layout.fragment_muvie, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mProgressBar = activity?.findViewById(R.id.progress_bar)
+        mProgressBar = activity?.findViewById(`in`.ac.themuviedb.R.id.progress_bar)
 
         var movieData = ApiClient.create()
         movieData.getMovies().enqueue(this)
@@ -57,43 +57,22 @@ class MuvieFragment : Fragment(), Callback<MuvieDetailModel> {
     }
 
     override fun onResponse(call: Call<MuvieDetailModel>, response: Response<MuvieDetailModel>) {
-        val gridview = activity!!.findViewById<GridView>(R.id.gridview)
 
-        val adapter = MovieListAdapter(
-            activity!!,
-            R.layout.movie_item,
-            response.body()!!.results
-        )
-        gridview.adapter = adapter
-        mProgressBar?.visibility = View.GONE
+        val recyclerView = activity?.findViewById(`in`.ac.themuviedb.R.id.recyclerView) as RecyclerView
 
-        gridview.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            val intent = Intent(context, MovieDetail::class.java)
-            intent.putExtra("MOVIE_INFO", response.body()!!.results[position])
-            startActivity(intent)
+        val gridLayoutManager = GridLayoutManager(context, 2)
+        recyclerView.apply {
+            recyclerView.layoutManager = gridLayoutManager // set LayoutManager to RecyclerView
+            recyclerView.itemAnimator = DefaultItemAnimator()
+            adapter = MovieAdapter(context, response.body()?.results, this@MuvieFragment)
         }
 
-        gridview.setOnScrollChangeListener(object : AbsListView.OnScrollListener, View.OnScrollChangeListener {
-            override fun onScrollChange(v: View?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int) {
-                print("onScrollChange")
-
-            }
-
-            override fun onScroll(
-                view: AbsListView?,
-                firstVisibleItem: Int,
-                visibleItemCount: Int,
-                totalItemCount: Int
-            ) {
-                print("onScroll")
-
-            }
-
-            override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {
-                print("onScrollStateChanged")
-            }
-
-        })
+        mProgressBar?.visibility = View.GONE
     }
 
+    override fun onMovieClicked(movieItem: Result) {
+        val intent = Intent(context, MovieDetail::class.java)
+        intent.putExtra("MOVIE_INFO", movieItem)
+        startActivity(intent)
+    }
 }
