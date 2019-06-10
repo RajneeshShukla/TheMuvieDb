@@ -1,6 +1,7 @@
 package `in`.ac.themuviedb.model
 
 import com.google.gson.annotations.SerializedName
+import java.util.ArrayList
 
 
 data class MuvieDetailModel(
