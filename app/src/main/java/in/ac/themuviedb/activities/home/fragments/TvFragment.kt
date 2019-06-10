@@ -52,7 +52,7 @@ class TvFragment : Fragment(), Callback<MuvieDetailModel> {
 
     override fun onResponse(call: Call<MuvieDetailModel>, response: Response<MuvieDetailModel>) {
         mProgressBar?.visibility = View.GONE
-        val gridview = activity!!.findViewById<GridView>(R.id.gridview)
+        val gridview = activity!!.findViewById<View>(R.id.gridview) as GridView
 
         val adapter = MovieListAdapter(
             activity!!,
@@ -68,6 +68,8 @@ class TvFragment : Fragment(), Callback<MuvieDetailModel> {
             intent.putExtra("MOVIE_INFO", response.body()!!.results[position])
             startActivity(intent)
         }
+
+
     }
 
 }

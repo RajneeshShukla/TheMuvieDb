@@ -8,10 +8,10 @@ import `in`.ac.themuviedb.model.MuvieDetailModel
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.AdapterView
 import android.widget.GridView
 import android.widget.ProgressBar
@@ -53,7 +53,7 @@ class MuvieFragment : Fragment(), Callback<MuvieDetailModel> {
 
 
     override fun onFailure(call: Call<MuvieDetailModel>, t: Throwable) {
-
+        mProgressBar?.visibility = View.GONE
     }
 
     override fun onResponse(call: Call<MuvieDetailModel>, response: Response<MuvieDetailModel>) {
@@ -72,6 +72,28 @@ class MuvieFragment : Fragment(), Callback<MuvieDetailModel> {
             intent.putExtra("MOVIE_INFO", response.body()!!.results[position])
             startActivity(intent)
         }
+
+        gridview.setOnScrollChangeListener(object : AbsListView.OnScrollListener, View.OnScrollChangeListener {
+            override fun onScrollChange(v: View?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int) {
+                print("onScrollChange")
+
+            }
+
+            override fun onScroll(
+                view: AbsListView?,
+                firstVisibleItem: Int,
+                visibleItemCount: Int,
+                totalItemCount: Int
+            ) {
+                print("onScroll")
+
+            }
+
+            override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {
+                print("onScrollStateChanged")
+            }
+
+        })
     }
 
 }
